@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: taller_db_container
+    restart: always
+    environment:
+      POSTGRES_DB: taller_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yamitgc01
+    ports:
+      - "5432:5432"
+    volumes:
+      # Copia tu script DDL e INSERTs a la ruta de inicialización automática de PostgreSQL
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # Persiste los datos en tu disco local
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

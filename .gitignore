@@ -1,0 +1,67 @@
+# ==========================================
+# Compilación y Artefactos de Build (Java / Maven / Gradle)
+# ==========================================
+target/
+build/
+.gradle/
+*.class
+*.jar
+*.war
+*.ear
+*.rar
+
+# ==========================================
+# Configuración e Archivos de IDEs
+# ==========================================
+# NetBeans
+nbproject/private/
+nbproject/project.fragment
+build/
+nbdist/
+dist/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# VS Code
+.vscode/
+
+# ==========================================
+# Entorno, Docker y Archivos Temporales
+# ==========================================
+# Logs y Archivos Temporales
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Variables de Entorno (Si usas archivos .env locales)
+.env
+.env.local
+
+# Datos Locales de Docker (Si generas volúmenes en carpetas locales)
+.dockerdata/
+docker-data/
+
+# ==========================================
+# Archivos del Sistema Operativo
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux / Ubuntu
+*~
+
+# Windows
+Thumbs.db
+Desktop.ini
