@@ -31,7 +31,7 @@ public class VehiculoRepositoryJdbc implements VehiculoRepository {
 
     @Override
     public Vehiculo guardar(Vehiculo vehiculo) {
-        String sql = "INSERT INTO vehiculos (cliente_id, placa, marca, modelo, categoria, anio_modelo) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO vehiculos (id_cliente , placa, marca, modelo, categoria, anio_modelo) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, vehiculo.getCliente().getId());
             stmt.setString(2, vehiculo.getPlaca());
@@ -56,7 +56,7 @@ public class VehiculoRepositoryJdbc implements VehiculoRepository {
 
     @Override
     public Optional<Vehiculo> buscarPorId(Long id) {
-        String sql = "SELECT * FROM vehiculos WHERE id = ?";
+        String sql = "SELECT * FROM vehiculos WHERE id_vehiculo = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -104,7 +104,7 @@ public class VehiculoRepositoryJdbc implements VehiculoRepository {
 
     @Override
     public void actualizar(Vehiculo vehiculo) {
-        String sql = "UPDATE vehiculos SET cliente_id = ?, placa = ?, marca = ?, modelo = ?, categoria = ?, anio_modelo = ? WHERE id = ?";
+        String sql = "UPDATE vehiculos SET id_cliente = ?, placa = ?, marca = ?, modelo = ?, categoria = ?, anio_modelo = ? WHERE id_vehiculo = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, vehiculo.getCliente().getId());
             stmt.setString(2, vehiculo.getPlaca());
@@ -122,7 +122,7 @@ public class VehiculoRepositoryJdbc implements VehiculoRepository {
 
     @Override
     public void eliminar(Long id) {
-        String sql = "DELETE FROM vehiculos WHERE id = ?";
+        String sql = "DELETE FROM vehiculos WHERE id_vehiculo = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
@@ -134,11 +134,11 @@ public class VehiculoRepositoryJdbc implements VehiculoRepository {
     // Método auxiliar para transformar filas SQL al objeto Vehiculo
     private Vehiculo mapearVehiculo(ResultSet rs) throws SQLException {
         Vehiculo vehiculo = new Vehiculo();
-        vehiculo.setId(rs.getLong("id"));
+        vehiculo.setId(rs.getLong("id_vehiculo"));
         
         // Creamos el cascarón de cliente con su ID correspondiente
         Cliente cliente = new Cliente();
-        cliente.setId(rs.getLong("cliente_id"));
+        cliente.setId(rs.getLong("id_cliente"));
         vehiculo.setCliente(cliente);
         
         vehiculo.setPlaca(rs.getString("placa"));

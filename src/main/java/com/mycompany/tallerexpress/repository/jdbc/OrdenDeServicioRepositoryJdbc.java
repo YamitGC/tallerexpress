@@ -34,7 +34,7 @@ public class OrdenDeServicioRepositoryJdbc implements OrdenDeServicioRepository 
 
     @Override
     public void guardar(OrdenDeServicio orden) {
-        String sql = "INSERT INTO ordenes_servicio (vehiculo_id, cliente_id, user_id, descripcion_falla, diagnostico, total_mano_obra, total_repuestos, total_pagar, estado, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ordenes_servicio (id_vehiculo, id_cliente, user_id, descripcion_falla, diagnostico, total_mano_obra, total_repuestos, total_pagar, estado, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, orden.getVehiculo().getId());
             stmt.setLong(2, orden.getCliente().getId());
@@ -92,7 +92,7 @@ public class OrdenDeServicioRepositoryJdbc implements OrdenDeServicioRepository 
 
     @Override
     public void actualizar(OrdenDeServicio orden) {
-        String sql = "UPDATE ordenes_servicio SET vehiculo_id = ?, cliente_id = ?, user_id = ?, descripcion_falla = ?, diagnostico = ?, total_mano_obra = ?, total_repuestos = ?, total_pagar = ?, estado = ? WHERE id = ?";
+        String sql = "UPDATE ordenes_servicio SET id_vehiculo = ?, id_cliente = ?, id_user = ?, descripcion_falla = ?, diagnostico = ?, total_mano_obra = ?, total_repuestos = ?, total_pagar = ?, estado = ? WHERE id = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, orden.getVehiculo().getId());
             stmt.setLong(2, orden.getCliente().getId());
@@ -113,7 +113,7 @@ public class OrdenDeServicioRepositoryJdbc implements OrdenDeServicioRepository 
 
     @Override
     public List<OrdenDeServicio> buscarPorClienteId(Long clienteId) {
-        String sql = "SELECT * FROM ordenes_servicio WHERE cliente_id = ?";
+        String sql = "SELECT * FROM ordenes_servicio WHERE id_cliente = ?";
         return ejecutarConsultaConParametroLong(sql, clienteId);
     }
 
@@ -154,15 +154,15 @@ public class OrdenDeServicioRepositoryJdbc implements OrdenDeServicioRepository 
         orden.setId(rs.getLong("id"));
         
         Vehiculo v = new Vehiculo(); 
-        v.setId(rs.getLong("vehiculo_id")); 
+        v.setId(rs.getLong("id_vehiculo")); 
         orden.setVehiculo(v);
         
         Cliente c = new Cliente(); 
-        c.setId(rs.getLong("cliente_id")); 
+        c.setId(rs.getLong("id_cliente")); 
         orden.setCliente(c);
         
         User u = new User(); 
-        u.setId(rs.getLong("user_id")); 
+        u.setId(rs.getLong("id_user")); 
         orden.setUser(u);
         
         orden.setDescripcionFalla(rs.getString("descripcion_falla"));
@@ -195,7 +195,7 @@ public class OrdenDeServicioRepositoryJdbc implements OrdenDeServicioRepository 
     
     @Override
     public List<OrdenDeServicio> buscarPorVehiculoPlaca(String placa) {
-        String sql = "SELECT o.* FROM ordenes_servicio o JOIN vehiculos v ON o.vehiculo_id = v.id WHERE v.placa = ?";
+        String sql = "SELECT o.* FROM ordenes_servicio o JOIN vehiculos v ON o.id_vehiculo = v.id WHERE v.placa = ?";
         List<OrdenDeServicio> lista = new ArrayList<>();
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, placa);

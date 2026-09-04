@@ -60,7 +60,7 @@ public class RepuestoRepositoryJdbc implements RepuestoRepository {
 
     @Override
     public Optional<Repuesto> buscarPorId(Long id) {
-        String sql = "SELECT * FROM repuestos WHERE id = ?";
+        String sql = "SELECT * FROM repuestos WHERE id_repuesto = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -103,7 +103,7 @@ public class RepuestoRepositoryJdbc implements RepuestoRepository {
 
     @Override
     public void actualizar(Repuesto repuesto) {
-        String sql = "UPDATE repuestos SET codigo_referencia = ?, nombre = ?, categoria = ?, proveedor = ?, stock_total = ?, stock_disponible = ?, precio_unitario = ?, is_activo = ? WHERE id = ?";
+        String sql = "UPDATE repuestos SET codigo_referencia = ?, nombre = ?, categoria = ?, proveedor = ?, stock_total = ?, stock_disponible = ?, precio_unitario = ?, is_activo = ? WHERE id_repuesto = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, repuesto.getCodigoReferencia());
             stmt.setString(2, repuesto.getNombre());
@@ -123,7 +123,7 @@ public class RepuestoRepositoryJdbc implements RepuestoRepository {
 
     @Override
     public void eliminar(Long id) {
-        String sql = "DELETE FROM repuestos WHERE id = ?";
+        String sql = "DELETE FROM repuestos WHERE id_repuesto = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
@@ -151,7 +151,7 @@ public class RepuestoRepositoryJdbc implements RepuestoRepository {
     // Método auxiliar para transformar filas SQL al objeto Repuesto
     private Repuesto mapearRepuesto(ResultSet rs) throws SQLException {
         Repuesto repuesto = new Repuesto();
-        repuesto.setId(rs.getLong("id"));
+        repuesto.setId(rs.getLong("id_repuesto"));
         repuesto.setCodigoReferencia(rs.getString("codigo_referencia"));
         repuesto.setNombre(rs.getString("nombre"));
         repuesto.setCategoria(rs.getString("categoria"));

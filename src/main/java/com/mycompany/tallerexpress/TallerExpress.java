@@ -25,7 +25,7 @@ import java.sql.SQLException;
 public class TallerExpress {
     public static void main(String[] args) {
         // Tu conexión actual a PostgreSQL
-        String url = "jdbc:postgresql://localhost:5434/taller_db";
+        String url = "jdbc:postgresql://localhost:5432/taller_db";
         String userDB = "postgres";
         String passDB = "yamitgc01";
 

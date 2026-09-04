@@ -58,7 +58,7 @@ public class ClienteRepositoryJdbc implements ClienteRepository {
 
     @Override
     public Optional<Cliente> buscarPorId(Long id) {
-        String sql = "SELECT * FROM clientes WHERE id = ?";
+        String sql = "SELECT * FROM clientes WHERE id_cliente = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -106,7 +106,7 @@ public class ClienteRepositoryJdbc implements ClienteRepository {
 
     @Override
     public void actualizar(Cliente cliente) {
-        String sql = "UPDATE clientes SET numero_identificacion = ?, nombre_completo = ?, telefono = ?, correo = ?, direccion = ?, estado = ? WHERE id = ?";
+        String sql = "UPDATE clientes SET numero_identificacion = ?, nombre_completo = ?, telefono = ?, correo = ?, direccion = ?, estado = ? WHERE id_cliente = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, cliente.getNumeroIdentificacion());
             stmt.setString(2, cliente.getNombreCompleto());
@@ -124,7 +124,7 @@ public class ClienteRepositoryJdbc implements ClienteRepository {
 
     @Override
     public void eliminar(Long id) {
-        String sql = "DELETE FROM clientes WHERE id = ?";
+        String sql = "DELETE FROM clientes WHERE id_cliente = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
@@ -136,7 +136,7 @@ public class ClienteRepositoryJdbc implements ClienteRepository {
     // Método auxiliar para transformar filas de SQL a la entidad Cliente
     private Cliente mapearCliente(ResultSet rs) throws SQLException {
         Cliente cliente = new Cliente();
-        cliente.setId(rs.getLong("id"));
+        cliente.setId(rs.getLong("id_cliente"));
         cliente.setNumeroIdentificacion(rs.getString("numero_identificacion"));
         cliente.setNombreCompleto(rs.getString("nombre_completo"));
         cliente.setTelefono(rs.getString("telefono"));

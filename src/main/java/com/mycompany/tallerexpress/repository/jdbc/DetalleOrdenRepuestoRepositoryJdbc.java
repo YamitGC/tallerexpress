@@ -45,7 +45,7 @@ public class DetalleOrdenRepuestoRepositoryJdbc implements DetalleOrdenRepuestoR
 
     @Override
     public void guardarLista(List<DetalleOrdenRepuesto> detalles) {
-        String sql = "INSERT INTO detalle_orden_repuestos (orden_servicio_id, repuesto_id, precio_unitario_historico) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO detalle_orden_repuestos (id_detalle, id_repuesto, precio_unitario_historico) VALUES (?, ?, ?)";
         // Optimizamos usando Batch Updates para insertar todos los repuestos en un solo viaje a la base de datos
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             for (DetalleOrdenRepuesto detalle : detalles) {
@@ -62,7 +62,7 @@ public class DetalleOrdenRepuestoRepositoryJdbc implements DetalleOrdenRepuestoR
 
     @Override
     public List<DetalleOrdenRepuesto> buscarPorOrdenId(Long ordenId) {
-        String sql = "SELECT * FROM detalle_orden_repuestos WHERE orden_servicio_id = ?";
+        String sql = "SELECT * FROM detalle_orden_repuestos WHERE id_detalle = ?";
         List<DetalleOrdenRepuesto> lista = new ArrayList<>();
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, ordenId);
@@ -71,10 +71,10 @@ public class DetalleOrdenRepuestoRepositoryJdbc implements DetalleOrdenRepuestoR
                     DetalleOrdenRepuesto detalle = new DetalleOrdenRepuesto();
                     detalle.setId(rs.getLong("id"));
                     
-                    OrdenDeServicio o = new OrdenDeServicio(); o.setId(rs.getLong("orden_servicio_id"));
+                    OrdenDeServicio o = new OrdenDeServicio(); o.setId(rs.getLong("id_detalle"));
                     detalle.setOrdenDeServicio(o);
                     
-                    Repuesto r = new Repuesto(); r.setId(rs.getLong("repuesto_id"));
+                    Repuesto r = new Repuesto(); r.setId(rs.getLong("id_repuesto"));
                     detalle.setRepuesto(r);
                     
                     detalle.setPrecioUnitarioHistorico(rs.getBigDecimal("precio_unitario_historico"));
@@ -89,7 +89,7 @@ public class DetalleOrdenRepuestoRepositoryJdbc implements DetalleOrdenRepuestoR
 
     @Override
     public void eliminarDetalle(Long id) {
-        String sql = "DELETE FROM detalle_orden_repuestos WHERE id = ?";
+        String sql = "DELETE FROM detalle_orden_repuestos WHERE id_detalle = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
             stmt.executeUpdate();
@@ -100,7 +100,7 @@ public class DetalleOrdenRepuestoRepositoryJdbc implements DetalleOrdenRepuestoR
 
     @Override
     public void eliminarPorOrdenId(Long ordenId) {
-        String sql = "DELETE FROM detalle_orden_repuestos WHERE orden_servicio_id = ?";
+        String sql = "DELETE FROM detalle_orden_repuestos WHERE id_detalle = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, ordenId);
             stmt.executeUpdate();

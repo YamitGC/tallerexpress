@@ -27,7 +27,6 @@ public class UserController {
     } catch (DatosInvalidosException e) {
         return new Respuesta<>(401, e.getMessage(), null);
     } catch (Exception e) {
-        e.printStackTrace(); // <-- AGREGA ESTA LÍNEA TEMPORALMENTE
         return new Respuesta<>(500, "Error en el proceso de login", null);
     }
     }
